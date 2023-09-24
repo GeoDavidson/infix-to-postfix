@@ -153,5 +153,5 @@ int main()
 
     infixToPostfix(head, output);
     printf("Output: %s\n", output);
-    return 0;
+    return EXIT_SUCCESS;
 }
