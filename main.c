@@ -82,8 +82,7 @@ void infixToPostfix(node *head, char string[])
     int index1 = 0;
     while (head != NULL)
     {
-        if (isalnum(*head->data) || (*head->data == '-' &&
-                                     strlen(head->data) > 1))
+        if (isalnum(*head->data) || (*head->data == '-' && strlen(head->data) > 1))
         {
             for (int index2 = 0; index2 < strlen(head->data); index2++)
             {
@@ -106,8 +105,7 @@ void infixToPostfix(node *head, char string[])
         }
         else
         {
-            while (!isEmpty() && precedence(*head->data) <=
-                                     precedence(stack[top]))
+            while (!isEmpty() && precedence(*head->data) <= precedence(stack[top]))
             {
                 string[index1++] = pop();
                 string[index1++] = ' ';
