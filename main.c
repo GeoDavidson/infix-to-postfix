@@ -9,66 +9,54 @@
 char stack[MAX_SIZE];
 int top = -1;
 
-bool isFull()
-{
+bool isFull() {
     return top == MAX_SIZE - 1;
 }
 
-bool isEmpty()
-{
+bool isEmpty() {
     return top == -1;
 }
 
-void push(char x)
-{
-    if (isFull())
-    {
+void push(char x) {
+    if (isFull()) {
         printf("the stack is full\n");
         exit(1);
     }
     stack[++top] = x;
 }
 
-char pop()
-{
-    if (isEmpty())
-    {
+char pop() {
+    if (isEmpty()) {
         printf("the stack is empty\n");
         exit(1);
     }
     return stack[top--];
 }
 
-typedef struct node
-{
+typedef struct node {
     char *data;
     struct node *next;
 } node;
 
-void addNode(node **head, char *data)
-{
+void addNode(node **head, char *data) {
     node *newNode = malloc(sizeof(node));
     newNode->data = malloc(strlen(data));
     strcpy(newNode->data, data);
     newNode->next = NULL;
 
-    if (*head == NULL)
-    {
+    if (*head == NULL) {
         *head = newNode;
     }
-    else
-    {
+    else {
         node *current = *head;
-        while (current->next != NULL)
-        {
+        while (current->next != NULL) {
             current = current->next;
         }
         current->next = newNode;
     }
 }
 
-int precedence(char operator)
-{
+int precedence(char operator) {
     if (operator== '+' || operator== '-')
         return 1;
     else if (operator== '*' || operator== '/')
@@ -77,36 +65,27 @@ int precedence(char operator)
         return 0;
 }
 
-void infixToPostfix(node *head, char string[])
-{
+void infixToPostfix(node *head, char string[]) {
     int index1 = 0;
-    while (head != NULL)
-    {
-        if (isalnum(*head->data) || (*head->data == '-' && strlen(head->data) > 1))
-        {
-            for (int index2 = 0; index2 < strlen(head->data); index2++)
-            {
+    while (head != NULL) {
+        if (isalnum(*head->data) || (*head->data == '-' && strlen(head->data) > 1)) {
+            for (int index2 = 0; index2 < strlen(head->data); index2++) {
                 string[index1++] = head->data[index2];
             }
             string[index1++] = ' ';
         }
-        else if (*head->data == '(')
-        {
+        else if (*head->data == '(') {
             push(*head->data);
         }
-        else if (*head->data == ')')
-        {
-            while (stack[top] != '(')
-            {
+        else if (*head->data == ')') {
+            while (stack[top] != '(') {
                 string[index1++] = pop();
                 string[index1++] = ' ';
             }
             pop();
         }
-        else
-        {
-            while (!isEmpty() && precedence(*head->data) <= precedence(stack[top]))
-            {
+        else {
+            while (!isEmpty() && precedence(*head->data) <= precedence(stack[top])) {
                 string[index1++] = pop();
                 string[index1++] = ' ';
             }
@@ -114,16 +93,14 @@ void infixToPostfix(node *head, char string[])
         }
         head = head->next;
     }
-    while (!isEmpty())
-    {
+    while (!isEmpty()) {
         string[index1++] = pop();
         string[index1++] = ' ';
     }
     string[index1] = '\0';
 }
 
-int main()
-{
+int main() {
     node *head = NULL;
     char input[MAX_SIZE];
     char output[MAX_SIZE];
@@ -134,16 +111,13 @@ int main()
 
     int index1 = 0;
     int index2 = 0;
-    while (input[index1] != '\0')
-    {
-        if (isspace(input[index1]))
-        {
+    while (input[index1] != '\0') {
+        if (isspace(input[index1])) {
             tempString[index2++] = '\0';
             addNode(&head, tempString);
             index2 = 0;
         }
-        else
-        {
+        else {
             tempString[index2++] = input[index1];
         }
         index1++;
